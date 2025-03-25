@@ -3,10 +3,7 @@ package co.ucentral.bkedgame.controladores;
 import co.ucentral.bkedgame.persistencia.entidades.Equipo;
 import co.ucentral.bkedgame.servicios.EquipoServicio;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +16,22 @@ public class EquipoControlador {
     EquipoServicio equipoServicio;
 
     @GetMapping("/")
-    public List<Equipo> obtenerEquipos(){
+    public List<Equipo> obtenerTodos(){
         return equipoServicio.obtenerEquipos();
+    }
+
+    @GetMapping("/nombre/{nombre}")
+    public Equipo obtenerxNombre(@PathVariable String nombre){
+        return equipoServicio.obtenerxNombre(nombre);
+    }
+
+    @GetMapping("/pk/{id}")
+    public Equipo obtenerxId(@PathVariable Long id){
+        return equipoServicio.obtenerxPK(id);
+    }
+
+    @PostMapping("/")
+    public Equipo crear(@RequestBody Equipo equipo){
+        return equipoServicio.crear(equipo);
     }
 }
