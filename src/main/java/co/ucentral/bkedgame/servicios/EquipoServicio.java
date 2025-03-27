@@ -1,10 +1,12 @@
 package co.ucentral.bkedgame.servicios;
 
+import co.ucentral.bkedgame.dto.EquipoDto;
 import co.ucentral.bkedgame.persistencia.entidades.Equipo;
 import co.ucentral.bkedgame.persistencia.repositorios.Equiporepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +20,18 @@ public class EquipoServicio {
         return equiporepositorio.findAll();
     }
 
-    public Equipo crear(Equipo equipo){
-        return equiporepositorio.save(equipo);
+    public EquipoDto crear(EquipoDto equipoDto){
+        Equipo equipo = Equipo.builder()
+                .nombre(equipoDto.nombre())
+                .nombreCorto(equipoDto.nombreCorto())
+                .fechaCreacion(equipoDto.fechaCreacion())
+                .fechaRegistro(LocalDateTime.now())
+                .build();
+
+        if (equiporepositorio.save(equipo).getId()>0)
+            return  equipoDto;
+        else return null;
+        //return equiporepositorio.save(equipo);
     }
 
     public Equipo obtenerxNombre(String nombre){
